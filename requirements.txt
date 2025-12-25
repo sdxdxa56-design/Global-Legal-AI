@@ -1,11 +1,4 @@
 streamlit
 duckduckgo-search
-ddgs
-langchain
-langchain-community
-langchain-huggingface
-pypdf
-sentence-transformers
-faiss-cpu
-Pillow
-pytesseract
+pycountry
+langdetect
