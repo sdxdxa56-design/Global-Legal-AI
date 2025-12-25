@@ -1,4 +1,10 @@
+
+# الإصدار الأساسي للبدء السريع
 streamlit
 duckduckgo-search
-pycountry
-langdetect
+googletrans==4.0.0-rc1
+requests
+pandas
+numpy
+python-dateutil
+pytz
