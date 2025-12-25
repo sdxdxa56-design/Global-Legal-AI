@@ -1,9 +1,21 @@
+# الأساسيات وواجهة المستخدم
 streamlit
+
+# محرك البحث التلقائي (للتدريب اللحظي من الإنترنت)
+duckduckgo-search
+
+# محركات الذكاء الاصطناعي والربط القانوني
 langchain
 langchain-community
 langchain-huggingface
+
+# معالجة وتحليل ملفات الـ PDF (القوانين المرفوعة)
 pypdf
+
+# تحويل النصوص إلى بيانات رقمية (عقل النموذج)
 sentence-transformers
 faiss-cpu
+
+# معالجة الصور وفحص الوثائق (كشف التزوير)
 Pillow
 pytesseract
