@@ -1,5 +1,9 @@
+streamlit
 langchain
 langchain-community
+langchain-huggingface
 pypdf
 sentence-transformers
 faiss-cpu
+Pillow
+pytesseract
