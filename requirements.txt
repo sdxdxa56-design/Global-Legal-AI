@@ -1,0 +1,5 @@
+streamlit
+langchain
+python-magic
+pytesseract
+pypdf
