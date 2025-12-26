@@ -1,5 +1,3 @@
-
-# الإصدار الأساسي للبدء السريع
 streamlit
 duckduckgo-search
 googletrans==4.0.0-rc1
@@ -8,3 +6,6 @@ pandas
 numpy
 python-dateutil
 pytz
+langchain
+langchain-community
+sentence-transformers
