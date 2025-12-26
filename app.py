@@ -1,102 +1,54 @@
 import streamlit as st
-import time
 from duckduckgo_search import DDGS
-from datetime import datetime
+from googletrans import Translator
 
-# --- 1. إعدادات المظهر الفخم (نفس نمطك مع تحسينات) ---
-st.set_page_config(page_title="المحامي الماسي - العقل التفاعلي", layout="wide")
+# إعدادات الصفحة
+st.set_page_config(page_title="المحامي الذكي المطور", layout="wide")
 
-st.markdown("""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
-    * { font-family: 'Cairo', sans-serif; }
-    .stApp { background-color: #0d1117; color: white; }
-    .chat-bubble-ai { 
-        background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); 
-        padding: 20px; border-radius: 15px; border-right: 5px solid #00ffcc; margin: 10px 0;
-    }
-    .urgent-box { 
-        background: linear-gradient(135deg, #991b1b 0%, #ef4444 100%); 
-        padding: 15px; border-radius: 10px; font-weight: bold; animation: pulse 2s infinite;
-    }
-    @keyframes pulse { 0% {opacity: 1;} 50% {opacity: 0.7;} 100% {opacity: 1;} }
-    </style>
-    """, unsafe_allow_html=True)
-
-# --- 2. عقل المحامي (التحليل الذكي والرد التفاعلي) ---
-def advanced_legal_brain(user_input, country):
-    # التحليل الأولي للمشاعر والنية
-    is_crime_confession = any(word in user_input for word in ["قتلت", "سرقت", "ضربت", "جريمة"])
-    
-    response_data = {
-        "logic_advice": "",
-        "legal_articles": [],
-        "steps": []
-    }
-
-    # منطق ChatGPT للتفاعل مع المواقف الخطيرة
-    if is_crime_confession:
-        response_data["logic_advice"] = f"""
-        🛑 **تحليل الموقف (سري وهام):** لقد ذكرت أمراً في غاية الخطورة. بصفتي مساعدك الذكي، أذكرك أن قوانين **{country}** تأخذ هذه الاعترافات بمحمل الجد. 
-        **نصيحة فورية:** توقف عن الحديث عن التفاصيل لأي شخص، وابحث عن محامٍ فوراً. تسليم النفس في بعض الحالات قد يخفف العقوبة، لكن لا تفعل ذلك دون استشارة قانونية رسمية.
-        """
-    else:
-        response_data["logic_advice"] = f"💡 **تحليل الخبير:** بناءً على وصفك لمشكلة '{user_input}' في {country}، إليك المسار القانوني الصحيح:"
-
-    # البحث الأوتوماتيكي عن القوانين (التغذية الراجعة)
+def search_legal_advice(query, country):
+    """وظيفة للبحث عن النصوص القانونية في حال عدم وجود مطابقة مباشرة"""
     try:
         with DDGS() as ddgs:
-            search_query = f"عقوبة وإجراءات {user_input} في قانون {country}"
+            search_query = f"قانون {query} في {country} مواد نظام"
             results = list(ddgs.text(search_query, max_results=3))
-            for r in results:
-                response_data["legal_articles"].append(r['body'])
-    except:
-        response_data["legal_articles"].append("تعذر جلب النصوص القانونية اللحظية، يرجى مراجعة دستور الدولة.")
+            if results:
+                return "\n\n".join([r['body'] for r in results])
+    except Exception as e:
+        return None
+    return None
 
-    return response_data
+# واجهة المستخدم
+st.title("⚖️ المحامي الذكي (الإصدار المستقر)")
 
-# --- 3. واجهة المستخدم ---
-st.title("⚖️ المحامي الماسي (الذكاء التفاعلي)")
-st.caption("أنا لا أبحث فقط، أنا أفهم وأحلل وأعطيك نصيحة كشخص حقيقي.")
+col1, col2 = st.columns([1, 3])
 
-with st.sidebar:
-    st.header("⚙️ الضبط")
-    country = st.selectbox("📍 الدولة:", ["اليمن", "السعودية", "مصر", "الإمارات", "دولي"])
-    st.divider()
-    if st.button("🗑️ مسح الذاكرة"):
-        st.session_state.messages = []
-        st.rerun()
+with col1:
+    st.subheader("📍 الإعدادات")
+    target_country = st.selectbox("اختر الدولة:", ["اليمن", "السعودية", "مصر", "الإمارات"])
+    legal_reference = st.selectbox("المرجعية:", ["المحاكم الوطنية المحلية", "المحكمة الدولية (ICC)"])
 
-# إدارة المحادثة
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+with col2:
+    st.subheader("💬 استشارة قانونية")
+    user_input = st.text_input("اشرح قضيتك هنا (مثلاً: أريد حضانة ابني):")
 
-for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
+    if user_input:
+        with st.spinner('جاري تحليل النص والبحث في القواعد القانونية...'):
+            # محاكاة البحث الذكي
+            advice = search_legal_advice(user_input, target_country)
+            
+            if advice:
+                st.success(f"✅ تم العثور على معلومات قانونية ذات صلة بـ ({target_country}):")
+                st.markdown(f"**التحليل الاسترشادي:**\n\n{advice}")
+                
+                # أزرار إضافية كما في تصميمك
+                st.divider()
+                cols = st.columns(3)
+                cols[0].button("📄 صياغة مرافعة")
+                cols[1].button("📋 نسخ التقرير")
+                cols[2].button("💾 حفظ PDF")
+            else:
+                st.error("⚠️ تعذر العثور على نص مباشر. يرجى تبسيط شرح المشكلة أو التأكد من اتصال الإنترنت.")
 
-if prompt := st.chat_input("اشرح موقفك الآن (مثال: أنا قتلت شخص بالخطأ ماذا أفعل؟)"):
-    st.session_state.messages.append({"role": "user", "content": prompt})
-    with st.chat_message("user"):
-        st.markdown(prompt)
-
-    with st.chat_message("assistant"):
-        with st.status("🧠 العقل الاصطناعي يحلل الموقف قانونياً ومنطقياً...", expanded=False):
-            result = advanced_legal_brain(prompt, country)
-            time.sleep(1.5)
-        
-        # بناء الرد النهائي بأسلوب ChatGPT
-        full_res = f"<div class='chat-bubble-ai'>{result['logic_advice']}</div>"
-        
-        if result['legal_articles']:
-            full_res += "### 📖 السند القانوني الذي وجدته لك:\n"
-            for art in result['legal_articles']:
-                full_res += f"> {art}\n\n"
-        
-        st.markdown(full_res, unsafe_allow_html=True)
-        
-        # أزرار الطوارئ التفاعلية
-        if "قتلت" in prompt or "جريمة" in prompt:
-            st.markdown("<div class='urgent-alert'>⚠️ هل تود استخراج أقرب مكتب محاماة جنائي الآن؟</div>", unsafe_allow_html=True)
-
-    st.session_state.messages.append({"role": "assistant", "content": full_res})
+# تذييل الصفحة (Footer)
+st.markdown("---")
+st.caption("نظام المحامي الذكي 2024 - متوافق مع جميع الأنظمة")
