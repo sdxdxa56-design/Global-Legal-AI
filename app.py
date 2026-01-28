@@ -1,19 +1,12 @@
 # Global-Legal-AI
-#  اريد اخراج مجلد index.html من ملف templates 
+#  ​انشا الملفات الناقصه أو المجلدات الناقصه  معا كتابه الاكواد فيها  قم بتطوير المشروع بالكامل ليكون منصة لمستشار قانوني ذكي. قم بربط الـ API الخاص بنموذجي في ملف app.py، وأنشئ واجهة مستخدم (UI) احترافية بملفات HTML/CSS. أضف ملفاً جديداً باسم ideas.md يحتوي على 50 فكرة إبداعية لتطوير التكنولوجيا القانونية، واجعل الأكواد مترابطة وخالية من الأخطاء البرمجية وعيد ترتيب هيكله الملفات
 
-from flask import Flask, jsonify
+from flask import Flask
 app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return 'Global-Legal-AI -  اريد اخراج مجلد index.html من ملف templates '
-
-@app.route('/api/test')
-def test():
-    return jsonify({
-        "status": "success",
-        "task": " اريد اخراج مجلد index.html من ملف templates "
-    })
+    return 'مرحباً! Global-Legal-AI'
 
 if __name__ == '__main__':
     app.run(debug=True)
