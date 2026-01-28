@@ -1,11 +1,2 @@
-streamlit
-duckduckgo-search
-googletrans==4.0.0-rc1
-requests
-pandas
-numpy
-python-dateutil
-pytz
-langchain
-langchain-community
-sentence-transformers
+flask>=2.0.0
+requests>=2.0.0
